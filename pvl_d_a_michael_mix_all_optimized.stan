@@ -47,9 +47,9 @@ transformed parameters {
   }
   
   for (i in 1:4) {
-    lp_parts[i,1] <- log1m(mix[i]) + (normal_log(tail(ind_pr[i], n_s_2),
+    lp_parts[i,1] <- log(mix[i]) + (normal_log(tail(ind_pr[i], n_s_2),
 												 mu_pr[i,1], std[i,1]));
-    lp_parts[i,2] <- log(mix[i]) + (normal_log(tail(ind_pr[i], n_s_2),
+    lp_parts[i,2] <- log1m(mix[i]) + (normal_log(tail(ind_pr[i], n_s_2),
 											   mu_pr[i,2], std[i,2]));
   }
 }
@@ -102,11 +102,11 @@ model {
   }
 }
 generated quantities {
-  int<lower=0,upper=1> z[4];
-	
+  int<lower=0,upper=1> z[4];  // high values of z indicate group distribution 
+							  // to be different
   for (i in 1:4) {
     real prob;
-    prob <- exp(lp_parts[i,1]) / (exp(lp_parts[i,1]) + exp(lp_parts[i,2]));
-    z[i] <- bernoulli_rng(prob);
+    prob <- exp(lp_parts[i,2]) / (exp(lp_parts[i,1]) + exp(lp_parts[i,2]));
+    z[i] <- bernoulli_rng(prob); 
   }
 }
