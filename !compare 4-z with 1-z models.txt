@@ -1,0 +1,46 @@
+Here you can find all relevant information for comparing the 4-z and 1-z models
+
+
+###################### 4-z-mixture-model ######################
+Here is output and computation of posterior odds
+Data is from 2 simulations first is from an older run, where I actually used z values
+in a opposite way - 0 for different group distribution, but in the second one it is 
+the other way around.  
+
+1. "mix_all" model (24k iterations, 13h run) - inversed values
+z[1]          0.32    0.02  0.47     0.00     0.00     0.00     1.00     1.00   424 1.01
+z[2]          0.95    0.01  0.21     0.00     1.00     1.00     1.00     1.00  1001 1.00
+z[3]          0.52    0.02  0.50     0.00     0.00     1.00     1.00     1.00   610 1.01
+z[4]          0.28    0.06  0.45     0.00     0.00     0.00     1.00     1.00    61 1.11
+
+2. "optimzed_2_phi" model (60k iterations, 34h run)
+              mean se_mean     sd      2.5%       25%       50%       75%     97.5% n_eff  Rhat
+z[1]         0.696   0.016  0.460     0.000     0.000     1.000     1.000     1.000   794 1.005
+z[2]         0.048   0.004  0.215     0.000     0.000     0.000     0.000     1.000  3026 1.003
+z[3]         0.490   0.028  0.500     0.000     0.000     0.000     1.000     1.000   311 1.016
+z[4]         0.690   0.031  0.462     0.000     0.000     1.000     1.000     1.000   227 1.016
+
+Here are the posterior odds from both runs. Now with the same meaning - 1 for diff. group dist. 
+
+> # proportion of z[1] - A
+0.645649;  0.6710055
+
+> # proportion of z[2] - w
+0.0302725;  0.03704998
+
+> # proportion of z[3] - a
+0.3453678;  0.3560075
+
+> # proportion of z[4] - c
+0.6670132;  0.6516627
+
+###################### Just ONE-z ###################################
+And finaly here you can compare it with posterior odds from 1-z-mixture models. 
+
+############# z[1] - A ##################################
+              mean se_mean     sd      2.5%       25%       50%       75%     97.5% n_eff  Rhat
+z            0.649   0.006  0.477     0.000     0.000     1.000     1.000     1.000  5774 1.000
+
+############# z[2] - w ##################################
+              mean se_mean     sd      2.5%       25%       50%       75%     97.5% n_eff  Rhat
+z            0.040   0.001  0.195     0.000     0.000     0.000     0.000     1.000 25763 1.000
