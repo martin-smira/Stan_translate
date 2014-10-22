@@ -29,8 +29,6 @@ parameters {
 transformed parameters {
   vector[2] lp_parts;
   matrix[n_s,n_t-1] lp_tmp[2];
-  real max_lp;
-  real min_lp;
  
   // Individual-level paramters    
   vector<lower=0,upper=1>[n_s] A_ind; 
@@ -78,9 +76,6 @@ transformed parameters {
   }  
   lp_parts[1] <- log(mix) + sum(lp_tmp[1]);
   lp_parts[2] <- log1m(mix) + sum(lp_tmp[2]);
-  
-  min_lp <- min(lp_parts);
-  max_lp <- max(lp_parts);
 }
 model {
   # Prior on the group-level mean parameters
@@ -92,8 +87,7 @@ model {
   for (i in 1:4)
     raw[i] ~ normal(0, 1);   
     
-//  increment_log_prob(log_sum_exp(lp_parts) + max_lp);
-  increment_log_prob(log1p(exp(min_lp - max_lp)) + max_lp);
+  increment_log_prob(log_sum_exp(lp_parts));   
 }
 generated quantities {
 	real<lower=0,upper=1> mu_A;   
@@ -108,6 +102,6 @@ generated quantities {
   mu_a <- Phi(mu_a_pr);
   mu_c <- Phi(mu_c_pr) * 5;  
   
-  prob <- softmax(lp_parts - max_lp);
+  prob <- softmax(lp_parts);
   z <- bernoulli_rng(prob[1]);   
 }
